@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	inputFile := "text.png"
+	inputFile := "test.jpg"
 	chunkSize := int64(102400) // Set your desired chunk size in bytes
 
 	// Split the file into chunks
