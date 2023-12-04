@@ -31,6 +31,7 @@ func SplitFile(inputFile string, chunkSize int64) ([]string, error) {
 
 	for i := int64(0); i < fileSize; i += chunkSize {
 		chunkName := fmt.Sprintf("%s_chunk%d", inputFile, i/chunkSize+1)
+
 		chunkFile, err := os.Create(chunkName)
 		if err != nil {
 			return nil, err
