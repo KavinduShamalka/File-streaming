@@ -4,6 +4,7 @@ import (
 	"chunk/streaming"
 	"crypto/sha256"
 	"fmt"
+	"os"
 )
 
 type MerkleNode struct {
@@ -42,19 +43,31 @@ func printTree(node *MerkleNode, indent string) {
 }
 
 func main() {
-	inputFile := "test.jpg"
-	chunkSize := int64(102400) // Set your desired chunk size in bytes
+
+	inputFile, err := os.Open("test.jpg")
+	if err != nil {
+		fmt.Printf("Error: %v", err)
+	}
+	chunkSize := int64(1024) // Set your desired chunk size in bytes
 
 	// Split the file into chunks
-	chunkNames, err := streaming.SplitFile(inputFile, chunkSize)
+	name, err := streaming.SplitFile(inputFile, chunkSize)
 	if err != nil {
 		fmt.Println("Error splitting file:", err)
 		return
 	}
 
-	root := buildMerkleTree(chunkNames)
+	// fmt.Printf("Size: %v\n", name)
+
+	root := buildMerkleTree(name)
 	printTree(root, "")
 	fmt.Println("Root Hash:", root.Hash)
+
+	// // Print hash values for each chunk
+	// fmt.Println("Hash values for each chunk:")
+	// for i, hashValue := range hash {
+	// 	fmt.Printf("Chunk %d: %s\n", i+1, hashValue)
+	// }
 
 	// root := merkle.MerkleNode {
 
